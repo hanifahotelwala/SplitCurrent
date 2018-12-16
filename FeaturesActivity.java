@@ -79,4 +79,6 @@ public class FeaturesActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Timer.class);
         startActivity(intent);
     }
+
+
 }
