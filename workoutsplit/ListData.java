@@ -18,7 +18,7 @@ import com.example.android.splitfeatures.R;
 import java.util.ArrayList;
 
 /**
- * for workoutsplit
+ * for workoutsplit!!
  */
 
 
@@ -29,6 +29,7 @@ public class ListData extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
 
     private ListView mListView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,9 +75,9 @@ public class ListData extends AppCompatActivity {
                     editScreenIntent.putExtra("name",name);
                     startActivity(editScreenIntent);
                 }
-                else{
-                    toastMessage("No ID associated with that name");
-                }
+               // else{
+                   // toastMessage("No ID associated with that name");
+                //}
             }
         });
     }
@@ -85,9 +86,9 @@ public class ListData extends AppCompatActivity {
      * customizable toast
      * @param message
      */
-    private void toastMessage(String message){
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
-    }
+//    private void toastMessage(String message){
+//        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+//    }
 }
 /**
  * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
