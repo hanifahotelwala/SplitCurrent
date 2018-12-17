@@ -1,86 +1,77 @@
 package com.example.android.splitfeatures;
 
-import android.support.v7.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
+
+/**
+ * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
+ */
 
 public class WorkoutSplit extends AppCompatActivity {
 
+    private static final String TAG = "WorkoutSplit";
 
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_workout_split);
-//
-//
-//    }
-TextView lst;
-    EditText studentid;
-    EditText studentname;
+    DatabaseHelper mDatabaseHelper;
+    private Button btnAdd, btnViewData;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_split);
-        lst = (TextView) findViewById(R.id.list);
-        studentid = (EditText) findViewById(R.id.studentID);
-        studentname = (EditText) findViewById(R.id.studentName);
+        editText = findViewById(R.id.editText);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnViewData = findViewById(R.id.btnView);
+        mDatabaseHelper = new DatabaseHelper(this);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newEntry = editText.getText().toString();
+                if (editText.length() != 0) {
+                    AddData(newEntry);
+                    editText.setText("");
+                } else {
+                    toastMessage("You must put something in the text field!");
+                }
+
+            }
+        });
+
+        btnViewData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WorkoutSplit.this, ListData.class);
+                startActivity(intent);
+            }
+        });
 
     }
-    public void addStudent (View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        int id = Integer.parseInt(studentid.getText().toString());
-        String name = studentname.getText().toString();
-        Student student = new Student(id,name);
-        dbHandler.addHandler(student);
-        studentid.setText("");
-        studentname.setText("");
-    }
 
-    public void findStudent (View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        Student student = dbHandler.findHandler(studentname.getText().toString());
-        if (student != null) {
-            lst.setText(String.valueOf(student.getID()) +" "+ student.getStudentName());
+    public void AddData(String newEntry) {
+        boolean insertData = mDatabaseHelper.addData(newEntry);
 
+        if (insertData) {
+            toastMessage("Data Successfully Inserted!");
         } else {
-            lst.setText("No Match Found");
+            toastMessage("Something went wrong");
         }
     }
 
-    public void loadStudents(View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        lst.setText(dbHandler.loadHandler());
-        studentid.setText("");
-        studentname.setText("");
+    /**
+     * customizable toast
+     * @param message
+     */
+    private void toastMessage(String message){
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
 
-    public void deleteStudent(View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null,
-                null, 1);
-        boolean result = dbHandler.deleteHandler(Integer.parseInt(
-                studentid.getText().toString()));
-        if (result) {
-            studentid.setText("");
-            studentname.setText("");
-            lst.setText("Record Deleted");
-        } else
-            studentid.setText("No Match Found");
-    }
 
-    public void updateStudent(View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null,
-                null, 1);
-        boolean result = dbHandler.updateHandler(Integer.parseInt(
-                studentid.getText().toString()), studentname.getText().toString());
-        if (result) {
-            studentid.setText("");
-            studentname.setText("");
-            lst.setText("Record Updated");
-        } else
-            studentid.setText("No Match Found");
-    }
 }
+
