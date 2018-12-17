@@ -1,4 +1,4 @@
-package com.example.android.splitfeatures;
+package com.example.android.splitfeatures.workoutsplit;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.android.splitfeatures.R;
+
 import java.util.ArrayList;
 
 /**

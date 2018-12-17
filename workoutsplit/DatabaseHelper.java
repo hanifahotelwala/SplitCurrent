@@ -1,4 +1,4 @@
-package com.example.android.splitfeatures;
+package com.example.android.splitfeatures.workoutsplit;
 
 import android.content.ContentValues;
 import android.content.Context;
