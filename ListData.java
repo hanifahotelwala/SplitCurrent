@@ -15,8 +15,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 /**
- * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
+ * for workoutsplit
  */
+
 
 public class ListData extends AppCompatActivity {
 
@@ -85,3 +86,6 @@ public class ListData extends AppCompatActivity {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
 }
+/**
+ * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
+ */

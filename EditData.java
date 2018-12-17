@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
+ * for workoutsplit
  */
 
 public class EditData extends AppCompatActivity {

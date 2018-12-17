@@ -9,9 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-/**
- * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
- */
+
 
 public class WorkoutSplit extends AppCompatActivity {
 
@@ -75,3 +73,8 @@ public class WorkoutSplit extends AppCompatActivity {
 
 }
 
+
+
+/**
+ * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
+ */

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
+ * for workoutsplit
  */
 
     public class DatabaseHelper extends SQLiteOpenHelper {
@@ -113,3 +113,6 @@ import android.util.Log;
 
 
 
+/**
+ * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
+ */
