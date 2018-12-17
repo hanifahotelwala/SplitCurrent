@@ -35,7 +35,7 @@ public class ListData extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_data);
-        mListView = (ListView) findViewById(R.id.listView);
+        mListView = findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
 
         populateListView();
@@ -46,15 +46,30 @@ public class ListData extends AppCompatActivity {
 
         //get the data and append to a list
         Cursor data = mDatabaseHelper.getData();
-        ArrayList<String> listData = new ArrayList<>();
+        ArrayList<String> listExercise = new ArrayList<>();
+        ArrayList<String> listSet = new ArrayList<>();
+        ArrayList<String> listRep = new ArrayList<>();
+
         while(data.moveToNext()){
             //get the value from the database in column 1
             //then add it to the ArrayList
-            listData.add(data.getString(1));
+            listExercise.add(data.getString(1));
+            listSet.add(data.getString(2));
+            listRep.add(data.getString(3));
+
+
         }
         //create the list adapter and set the adapter
-        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listExercise);
+        ListAdapter adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listSet);
+        ListAdapter adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listRep);
+        /**
+         * TODO: figure out how to display a table on the exercise log Exercise|Set|Reps
+         */
+
         mListView.setAdapter(adapter);
+        //mListView.setAdapter(adapter1);
+       // mListView.setAdapter(adapter2);
 
         //set an onItemClickListener to the ListView
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,6 +105,9 @@ public class ListData extends AppCompatActivity {
       Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
    }
 }
+
+
+
 /**
  * Source: Coding w/ mitch implementation https://github.com/mitchtabian/SaveReadWriteDeleteSQLite
  */
