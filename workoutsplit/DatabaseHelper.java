@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * for workoutsplit
  */
@@ -15,9 +18,6 @@ import android.util.Log;
 
         private static final String TAG = "DatabaseHelper";
 
-//        private static final String TABLE_NAME = "people_table";
-//        private static final String COL1 = "ID";
-//        private static final String COL2 = "name";
         private static final String TABLE_NAME = "workoutsplit_table";
         private static final String COL1 = "ID";
         private static final String COL2 = "WORKOUT";
@@ -33,9 +33,6 @@ import android.util.Log;
         @Override
         public void onCreate(SQLiteDatabase db) {
 
-
-            //String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    //COL2 +" TEXT)";
             String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COL2 + " TEXT, " + COL3 + " INTEGER, " + COL4 + " INTEGER)";
             db.execSQL(createTable);
@@ -47,23 +44,23 @@ import android.util.Log;
             onCreate(db);
         }
 
-//        public boolean addData(String item)
-//        {
-//            SQLiteDatabase db = this.getWritableDatabase();
-//            ContentValues contentValues = new ContentValues();
-//            contentValues.put(COL2, item);
-//
-//            Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
-//
-//            long result = db.insert(TABLE_NAME, null, contentValues);
-//
-//            //if date as inserted incorrectly it will return -1
-//            if (result == -1) {
-//                return false;
-//            } else {
-//                return true;
-//            }
-//        }
+        public boolean addData(String item)
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COL2, item);
+
+            Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
+
+            long result = db.insert(TABLE_NAME, null, contentValues);
+
+            //if date as inserted incorrectly it will return -1
+            if (result == -1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
         public boolean addData(String workout, int sets, int reps)
         {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -95,16 +92,24 @@ import android.util.Log;
             return data;
         }
 
-        public void printData(){
-            System.out.println(getData());
-        }
 
-        /**
+    public void deleteAll() {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(TABLE_NAME,null,null);
+            db.close();
+               // String query = "DELETE FROM TABLE_NAME";
+                //db.execSQL(query);
+
+    }
+
+
+
+    /**
          * Returns only the ID that matches the name passed in
          * @param workout
          * @return
          */
-        public Cursor getItemID(String workout){
+        public Cursor getItemID(List<ArrayList<String>> workout){
             SQLiteDatabase db = this.getWritableDatabase();
             String query = "SELECT " + COL1 + " FROM " + TABLE_NAME +
                     " WHERE " + COL2 + " = '" + workout + "'";
@@ -142,6 +147,7 @@ import android.util.Log;
             Log.d(TAG, "deleteName: Deleting " + name + " from database.");
             db.execSQL(query);
         }
+
 
     }
 
