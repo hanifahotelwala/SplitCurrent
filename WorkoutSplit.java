@@ -52,6 +52,9 @@ public class WorkoutSplit extends AppCompatActivity {
                 int repNum = new Integer(repEntry).intValue();
 
 
+
+
+
                 if (workout.length() != 0 && sets.length() !=0 && reps.length() !=0) {
                     AddData(workoutEntry, setNum, repNum);
                     workout.setText("");

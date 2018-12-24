@@ -95,6 +95,10 @@ import android.util.Log;
             return data;
         }
 
+        public void printData(){
+            System.out.println(getData());
+        }
+
         /**
          * Returns only the ID that matches the name passed in
          * @param workout
