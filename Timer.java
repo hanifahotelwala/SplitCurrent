@@ -24,15 +24,15 @@ import android.widget.Toast;
 import java.util.Locale;
 
 public class Timer extends AppCompatActivity {
-    private static final long START_TIME_IN_MILLIS = 10000;
+    private static final long START_TIME_IN_MILLIS = 5000;
 
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
     private Button mButtonReset;
     private CountDownTimer mCountDownTimer;
+    private CountDownTimer timer;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
-
     private TextView mCircuitValue;
     private EditText mCircuitInput;
     private int numCircuitInput=-1;
@@ -57,29 +57,27 @@ public class Timer extends AppCompatActivity {
         mButtonStartPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(toStringCircuitInput.length()==0){
+                if (toStringCircuitInput.length() == 0) {
                     try {
                         numCircuitInput = Integer.parseInt(mCircuitInput.getText().toString());
 
-                    }
-                    catch (NumberFormatException e){
+                    } catch (NumberFormatException e) {
                         toastMessage("mCircuitInput not working");
                     }
 
-                } else
-                {
-                    numCircuitInput=0;
+                } else {
+                    numCircuitInput = 0;
                 }
+
+                    if (mTimerRunning) {
+                        pauseTimer();
+
+                    } else {
+                        startTimer();
+                    }
 
                 numCircuitInput--;
                 mCircuitValue.setText(String.valueOf(numCircuitInput));
-
-                if (mTimerRunning) {
-                    pauseTimer();
-
-                } else {
-                    startTimer();
-                }
             }
         });
 
@@ -89,15 +87,16 @@ public class Timer extends AppCompatActivity {
                 resetTimer();
             }
         });
-        while (numCircuitInput !=0) {
+
 
             updateCountDownText();
-        }
+
 
 
     }
 
     private void startTimer() {
+
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -107,11 +106,19 @@ public class Timer extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                mTimerRunning = false;
-                mButtonStartPause.setText("Start");
-                mButtonStartPause.setVisibility(View.INVISIBLE);
-                mButtonReset.setVisibility(View.VISIBLE);
 
+                if(numCircuitInput ==0) {
+                    mTimerRunning = false;
+                }
+                else {
+                    mTimerRunning = true;
+                    mCountDownTimer.start();
+                    numCircuitInput--;
+                    mCircuitValue.setText(String.valueOf(numCircuitInput));
+                    mButtonStartPause.setText("Start");
+                    mButtonStartPause.setVisibility(View.INVISIBLE);
+                    mButtonReset.setVisibility(View.VISIBLE);
+                }
             }
         }.start();
 
