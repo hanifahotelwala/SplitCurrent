@@ -23,6 +23,9 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class Timer extends AppCompatActivity {
     private static final long START_TIME_IN_MILLIS = 5000;
 
@@ -30,13 +33,26 @@ public class Timer extends AppCompatActivity {
     private Button mButtonStartPause;
     private Button mButtonReset;
     private CountDownTimer mCountDownTimer;
-    private CountDownTimer timer;
+    private CountDownTimer restCountDown;
     private boolean mTimerRunning;
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    //private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private long mTimeLeftInMillis;
+    private long mRestTimeInMillis;
+
     private TextView mCircuitValue;
+    private TextView mCircuits;
     private EditText mCircuitInput;
     private int numCircuitInput=-1;
     private String toStringCircuitInput="";
+
+    private EditText mCircuitLength;
+    private long numCircuitLength;
+   // private long numCircuitLengthMillis;
+    private EditText mRestPeriod;
+    private long numRestLength;
+
+
+
 
 
     @Override
@@ -53,6 +69,14 @@ public class Timer extends AppCompatActivity {
         mCircuitInput = findViewById(R.id.circuitsInput);
         toStringCircuitInput = mCircuitInput.getText().toString();
 
+        mCircuitLength = findViewById(R.id.circuitLength);
+        mCircuits = findViewById(R.id.circuits);
+        mRestPeriod = findViewById(R.id.restLength);
+
+        mCircuitValue.setVisibility(GONE);
+        mCircuits.setVisibility(GONE);
+
+
 
         mButtonStartPause.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +84,12 @@ public class Timer extends AppCompatActivity {
                 if (toStringCircuitInput.length() == 0) {
                     try {
                         numCircuitInput = Integer.parseInt(mCircuitInput.getText().toString());
+                        numCircuitLength = Long.parseLong(mCircuitLength.getText().toString());
+                        mTimeLeftInMillis = numCircuitLength*1000;
+                        numRestLength = Long.parseLong(mRestPeriod.getText().toString());
+                        mRestTimeInMillis = numRestLength*1000;
+
+
 
                     } catch (NumberFormatException e) {
                         toastMessage("mCircuitInput not working");
@@ -75,9 +105,11 @@ public class Timer extends AppCompatActivity {
                     } else {
                         startTimer();
                     }
-
-                numCircuitInput--;
-                mCircuitValue.setText(String.valueOf(numCircuitInput));
+                /**
+                where the value of No. Circuit is decreasing
+                 */
+               // numCircuitInput--;
+               // mCircuitValue.setText(String.valueOf(numCircuitInput));
             }
         });
 
@@ -87,73 +119,111 @@ public class Timer extends AppCompatActivity {
                 resetTimer();
             }
         });
-
-
             updateCountDownText();
-
-
 
     }
 
     private void startTimer() {
-
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
+               mTimeLeftInMillis = millisUntilFinished;
+               updateCountDownText();
+               mCircuitValue.setVisibility(VISIBLE);
+               mCircuits.setVisibility(VISIBLE);
             }
 
             @Override
             public void onFinish() {
-
                 if(numCircuitInput ==0) {
                     mTimerRunning = false;
+                    mCountDownTimer.cancel();
+                    restCountDown.cancel();
                 }
                 else {
                     mTimerRunning = true;
-                    mCountDownTimer.start();
+
+                        restCountDown = new CountDownTimer(mRestTimeInMillis, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                mRestTimeInMillis = millisUntilFinished;
+                                updateCountDownTextRest();
+                                mCircuitValue.setVisibility(VISIBLE);
+                                mCircuits.setVisibility(VISIBLE);
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                mCountDownTimer.start();
+                                mButtonStartPause.setText("Start");
+                                mButtonStartPause.setVisibility(View.INVISIBLE);
+                                mButtonReset.setVisibility(VISIBLE);
+                                mCircuitValue.setVisibility(VISIBLE);
+                                mCircuits.setVisibility(VISIBLE);
+
+
+                            }
+                        }.start();
+
                     numCircuitInput--;
                     mCircuitValue.setText(String.valueOf(numCircuitInput));
+
                     mButtonStartPause.setText("Start");
                     mButtonStartPause.setVisibility(View.INVISIBLE);
-                    mButtonReset.setVisibility(View.VISIBLE);
+                    mButtonReset.setVisibility(VISIBLE);
+
+                    mCircuitValue.setVisibility(VISIBLE);
+                    mCircuits.setVisibility(VISIBLE);
                 }
             }
         }.start();
 
-        mTimerRunning = true;
+      //  mTimerRunning = true;
         mButtonStartPause.setText("pause");
         mButtonReset.setVisibility(View.INVISIBLE);
-        mCircuitInput.setVisibility(View.GONE);
+        mCircuitInput.setVisibility(GONE);
+        mCircuitLength.setVisibility(GONE);
     }
 
     private void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning = false;
         mButtonStartPause.setText("Start");
-        mButtonReset.setVisibility(View.VISIBLE);
-        mCircuitInput.setVisibility(View.GONE);
+        mButtonReset.setVisibility(VISIBLE);
+        mCircuitInput.setVisibility(GONE);
+        mCircuitLength.setVisibility(GONE);
+        mCircuitValue.setVisibility(VISIBLE);
+        mCircuits.setVisibility(VISIBLE);
+
     }
 
     private void resetTimer() {
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+        mRestTimeInMillis = numRestLength;
+        mTimeLeftInMillis = numCircuitLength;
         updateCountDownText();
         mButtonReset.setVisibility(View.INVISIBLE);
-        mButtonStartPause.setVisibility(View.VISIBLE);
-        mCircuitInput.setVisibility(View.VISIBLE);
+        mButtonStartPause.setVisibility(VISIBLE);
+        mCircuitInput.setVisibility(VISIBLE);
+        mCircuitLength.setVisibility(VISIBLE);
+        mCircuitValue.setVisibility(GONE);
+        mCircuits.setVisibility(GONE);
 
     }
 
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
-
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-
         mTextViewCountDown.setText(timeLeftFormatted);
     }
 
+    private void updateCountDownTextRest(){
+        int minutesRest = (int) (mRestTimeInMillis / 1000) / 60;
+        int secondsRest = (int) (mRestTimeInMillis / 1000) % 60;
+        String timeLeftFormattedRest = String.format(Locale.getDefault(), "%02d:%02d", minutesRest, secondsRest);
+        mTextViewCountDown.setText(timeLeftFormattedRest);
+
+    }
 
 private void toastMessage(String message){
     Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
