@@ -84,13 +84,15 @@ public class ListData extends AppCompatActivity {
         final ArrayList<String> listExercise = new ArrayList<>();
         ArrayList<String> listSet = new ArrayList<>();
         ArrayList<String> listRep = new ArrayList<>();
-
+//        ArrayList<String> everything = new ArrayList<>();
+//
         while (data.moveToNext()) {
             //get the value from the database in column 1
             //then add it to the ArrayList
             listExercise.add(data.getString(1));
             listSet.add(data.getString(2));
             listRep.add(data.getString(3));
+
         }
 
         final List<ArrayList<String>> listOfLists = new ArrayList<>();
@@ -101,42 +103,48 @@ public class ListData extends AppCompatActivity {
             derp.add("\n\t\tSet: " + listSet.toArray()[x].toString());
             derp.add("\n\t\tRep: " + listRep.toArray()[x].toString());
             derp.add("\n (" + currentDate + ")");
+            /**
+             * this WAS working....
+             */
+           // derp.add(data.getString(x));
 
             listOfLists.add(derp);
+
         }
+
         //create the list adapter and set the adapter
         ListAdapter adapter5 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listOfLists);
         mListView.setAdapter(adapter5);
-        toastMessage("here" + listOfLists.contains(listExercise.indexOf(1)));
+       // toastMessage("here" + listOfLists.contains(listExercise.indexOf(1)));
 
 ///////////////////////
 ////
-//                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//        @Override
-//        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//             String name = adapterView.getItemAtPosition(listOfLists.containsAll(listExercise)).toString());
-//
-//            Log.d(TAG, "onItemClick: You Clicked on " + name);
-//
-//            Cursor data = mDatabaseHelper.getItemID(name); //get the id associated with that name
-//            int itemID = -1;
-//
-//            while (data.moveToNext()) {
-//                itemID = data.getInt(0);
-//            }
-//            if (itemID > -1) {
-//                Log.d(TAG, "onItemClick: The ID is: " + itemID);
-//                Intent editScreenIntent = new Intent(ListData.this, EditData.class);
-//                editScreenIntent.putExtra("id", itemID);
-//                editScreenIntent.putExtra("name", name);
-//                startActivity(editScreenIntent);
-//
-//            } else {
-//                toastMessage("No ID associated with that name");
-//
-//            }
-//        }
-//    });
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+             String name = adapterView.getItemAtPosition(i).toString();
+
+            Log.d(TAG, "onItemClick: You Clicked on " + name);
+
+            Cursor data = mDatabaseHelper.getItemID(name); //get the id associated with that name
+            int itemID = -1;
+
+            while (data.moveToNext()) {
+                itemID = data.getInt(0);
+            }
+            if (itemID > -1) {
+                Log.d(TAG, "onItemClick: The ID is: " + itemID);
+                Intent editScreenIntent = new Intent(ListData.this, EditData.class);
+                editScreenIntent.putExtra("id", itemID);
+                editScreenIntent.putExtra("name", name);
+                startActivity(editScreenIntent);
+
+            } else {
+                toastMessage("No ID associated with that name");
+
+            }
+        }
+    });
     }
 
 
