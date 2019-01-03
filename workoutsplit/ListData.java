@@ -21,6 +21,7 @@ import com.example.android.splitfeatures.R;
 import com.example.android.splitfeatures.WorkoutSplit;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class ListData extends AppCompatActivity {
     private static final String TAG = "ListDataActivity";
     DatabaseHelper mDatabaseHelper;
     private ListView mListView;
-    private Button BtndeleteAll;
+    private Button btndeleteAll;
+    private Button btnlog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,96 +50,93 @@ public class ListData extends AppCompatActivity {
         mListView = findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         populateListView();
-        BtndeleteAll = findViewById(R.id.trash);
+        btndeleteAll = findViewById(R.id.trash);
+        btnlog = findViewById(R.id.log);
 
-        BtndeleteAll.setOnClickListener(new View.OnClickListener() {
+        btndeleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // if(mDatabaseHelper.getData()!=null)
+                if(mDatabaseHelper.getData()!=null){
                 mDatabaseHelper.deleteAll();
+                    goHome();}
+                else
+                    toastMessage("Workout log is already empty");
+            }
+        });
+        btnlog.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
                 goHome();
             }
         });
+
     }
 
 
     private void populateListView() {
-                Log.d(TAG, "populateListView: Displaying data in the ListView.");
+        Log.d(TAG, "populateListView: Displaying data in the ListView.");
 
-                //get the data and append to a list
-                Cursor data = mDatabaseHelper.getData();
-                ArrayList<String> listExercise = new ArrayList<>();
-                ArrayList<String> listSet = new ArrayList<>();
-                ArrayList<String> listRep = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
 
+        //get the data and append to a list
+        Cursor data = mDatabaseHelper.getData();
+        final ArrayList<String> listExercise = new ArrayList<>();
+        ArrayList<String> listSet = new ArrayList<>();
+        ArrayList<String> listRep = new ArrayList<>();
 
-                while (data.moveToNext()) {
-                    //get the value from the database in column 1
-                    //then add it to the ArrayList
-                    listExercise.add(data.getString(1));
-                    listSet.add(data.getString(2));
-                    listRep.add(data.getString(3));
+        while (data.moveToNext()) {
+            //get the value from the database in column 1
+            //then add it to the ArrayList
+            listExercise.add(data.getString(1));
+            listSet.add(data.getString(2));
+            listRep.add(data.getString(3));
+        }
 
-                }
+        final List<ArrayList<String>> listOfLists = new ArrayList<>();
+        int counter = listExercise.size();
+        for (int x = 0; x < counter; x++) {
+            ArrayList<String> derp = new ArrayList<>();
+            derp.add("Workout: " + listExercise.toArray()[x].toString());
+            derp.add("\n\t\tSet: " + listSet.toArray()[x].toString());
+            derp.add("\n\t\tRep: " + listRep.toArray()[x].toString());
+            derp.add("\n (" + currentDate + ")");
 
-                String dt = "2018-12-24";  // Start date
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                Calendar c = Calendar.getInstance();
-                try {
-                    c.setTime(sdf.parse(dt));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd-yyyy");
-                String output = sdf1.format(c.getTime());
+            listOfLists.add(derp);
+        }
+        //create the list adapter and set the adapter
+        ListAdapter adapter5 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listOfLists);
+        mListView.setAdapter(adapter5);
+        toastMessage("here" + listOfLists.contains(listExercise.indexOf(1)));
 
-                SimpleDateFormat sdf11 = new SimpleDateFormat("EEEE");
-                Date d = new Date();
-                String dayOfTheWeek = sdf11.format(d);
-
-                final List<ArrayList<String>> listOfLists = new ArrayList<>();
-                int counter = listExercise.size();
-                for (int x = 0; x < counter; x++) {
-                    ArrayList<String> derp = new ArrayList<>();
-                    derp.add("Workout: " + listExercise.toArray()[x].toString());
-                    derp.add("\n\t\tSet: "+ listSet.toArray()[x].toString());
-                    derp.add("\n\t\tRep: " +listRep.toArray()[x].toString());
-                    derp.add("\nDay: "+dayOfTheWeek +" ("+output+")" );
-
-                    listOfLists.add(derp);
-                    }
-                    //create the list adapter and set the adapter
-                    ListAdapter adapter5 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listOfLists);
-                    mListView.setAdapter(adapter5);
-
-
-                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                            String name = adapterView.getItemAtPosition(i).toString();
-                            //String sets = adapterView.getItemAtPosition(i+1).toString();
-                            Log.d(TAG, "onItemClick: You Clicked on " + name);
-
-                            Cursor data = mDatabaseHelper.getItemID(listOfLists); //get the id associated with that name
-                            int itemID = -1;
-                            while (data.moveToNext()) {
-                                itemID = data.getInt(0);
-
-                            }
-                            if (itemID > -1) {
-                                Log.d(TAG, "onItemClick: The ID is: " + itemID);
-                                Intent editScreenIntent = new Intent(ListData.this, EditData.class);
-                                editScreenIntent.putExtra("id", itemID);
-                                editScreenIntent.putExtra("name", name);
-                                startActivity(editScreenIntent);
-
-                            } else {
-                                toastMessage("No ID associated with that name");
-
-                            }
-                        }
-                    });
+///////////////////////
+////
+//                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//             String name = adapterView.getItemAtPosition(listOfLists.containsAll(listExercise)).toString());
+//
+//            Log.d(TAG, "onItemClick: You Clicked on " + name);
+//
+//            Cursor data = mDatabaseHelper.getItemID(name); //get the id associated with that name
+//            int itemID = -1;
+//
+//            while (data.moveToNext()) {
+//                itemID = data.getInt(0);
+//            }
+//            if (itemID > -1) {
+//                Log.d(TAG, "onItemClick: The ID is: " + itemID);
+//                Intent editScreenIntent = new Intent(ListData.this, EditData.class);
+//                editScreenIntent.putExtra("id", itemID);
+//                editScreenIntent.putExtra("name", name);
+//                startActivity(editScreenIntent);
+//
+//            } else {
+//                toastMessage("No ID associated with that name");
+//
+//            }
+//        }
+//    });
     }
 
 
