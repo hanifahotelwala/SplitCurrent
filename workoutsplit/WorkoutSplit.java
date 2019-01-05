@@ -1,4 +1,4 @@
-package com.example.android.splitfeatures;
+package com.example.android.splitfeatures.workoutsplit;
 
 
 import android.content.Intent;
@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.android.splitfeatures.workoutsplit.DatabaseHelper;
-import com.example.android.splitfeatures.workoutsplit.ListData;
+import com.example.android.splitfeatures.R;
 
 
 public class WorkoutSplit extends AppCompatActivity {

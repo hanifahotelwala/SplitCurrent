@@ -10,11 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android.splitfeatures.R;
-import com.example.android.splitfeatures.WorkoutSplit;
-import com.example.android.splitfeatures.workoutsplit.DatabaseHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * for workoutsplit

@@ -11,8 +11,6 @@ import android.widget.Toast;
 import com.example.android.splitfeatures.R;
 
 
-import com.example.android.splitfeatures.WorkoutSplit;
-
 import java.util.ArrayList;
 
 
