@@ -10,7 +10,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android.splitfeatures.R;
+import com.example.android.splitfeatures.WorkoutSplit;
 import com.example.android.splitfeatures.workoutsplit.DatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * for workoutsplit
@@ -25,16 +29,17 @@ public class EditData extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
 
     private String selectedName;
+
     private int selectedID;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_data);
-        btnSave = (Button) findViewById(R.id.btnSave);
-        btnDelete = (Button) findViewById(R.id.btnDelete);
-        editable_item = (EditText) findViewById(R.id.editable_item);
-        mDatabaseHelper = new DatabaseHelper(this);
+        btnSave = findViewById(R.id.btnSave);
+        btnDelete = findViewById(R.id.btnDelete);
+        editable_item = findViewById(R.id.editable_item);
 
         //get the intent extra from the ListDataActivity
         Intent receivedIntent = getIntent();
@@ -48,12 +53,16 @@ public class EditData extends AppCompatActivity {
         //set the text to show the current selected name
         editable_item.setText(selectedName);
 
+        mDatabaseHelper = new DatabaseHelper(this);
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String item = editable_item.getText().toString();
                 if(!item.equals("")){
                     mDatabaseHelper.updateName(item,selectedID,selectedName);
+                    goHome();
+                    toastMessage("Saved!");
                 }else{
                     toastMessage("You must enter a name");
                 }
@@ -63,9 +72,17 @@ public class EditData extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDatabaseHelper.deleteName(selectedID,selectedName);
-                editable_item.setText("");
-                toastMessage("removed from database");
+
+
+               // if(selectedID > -1) {
+                mDatabaseHelper.deleteName(selectedID, selectedName);
+                    editable_item.setText("");
+                    goHome();
+                    toastMessage("Removed from database");
+               // }
+               // else
+                   // toastMessage("Could not be deleted.");
+
             }
         });
 
@@ -78,11 +95,11 @@ public class EditData extends AppCompatActivity {
     private void toastMessage(String message){
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
+
+    public void goHome(){
+        Intent intent = new Intent(this, ListData.class);
+        startActivity(intent);
+    }
 }
-
-
-
-
-
 
 

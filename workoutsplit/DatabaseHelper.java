@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * for workoutsplit
@@ -109,7 +107,7 @@ import java.util.List;
          * @param workout
          * @return
          */
-        public Cursor getItemID(List<ArrayList<String>> workout){
+        public Cursor getItemID(String workout){
             SQLiteDatabase db = this.getWritableDatabase();
             String query = "SELECT " + COL1 + " FROM " + TABLE_NAME +
                     " WHERE " + COL2 + " = '" + workout + "'";
