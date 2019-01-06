@@ -97,15 +97,18 @@ public class Timer extends AppCompatActivity {
                     pauseTimer();
 
                 } else {
-                    startTimer();
-                    while(yes==true)
-                    startTimer();
-
-                        numCircuitInput--;
+                    if(numCircuitInput !=0) {
+                        startTimer();
+                        //numCircuitInput--;
                         mCircuitValue.setText(String.valueOf(numCircuitInput));
+                      //  restTimer();
 
-                    counter++;
-                    toastMessage("count:"+counter);
+                    }
+                    else
+                        resetTimer();
+
+                    //counter++;
+                    //toastMessage("count:"+counter);
 
 
                     }
@@ -136,7 +139,15 @@ public class Timer extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-               restTimer();
+                if (numCircuitInput!=0) {
+                    //start();
+                    numCircuitInput--;
+                    mCircuitValue.setText(String.valueOf(numCircuitInput));
+                    restTimer(numCircuitInput);
+
+                }
+                else
+                finish();
                 mTimerRunning=false;
                 mButtonStartPause.setText("Start");
                 mButtonStartPause.setVisibility(View.INVISIBLE);
@@ -155,7 +166,8 @@ public class Timer extends AppCompatActivity {
 
     }
 
-    private void restTimer(){
+    private void restTimer(int num){
+        final int value = num;
         restCountDown = new CountDownTimer(mRestTimeInMillis, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
@@ -165,7 +177,13 @@ public class Timer extends AppCompatActivity {
                             }
                             @Override
                             public void onFinish() {
-                                startTimer();
+                                if(value!=0) {
+                                    // mCountDownTimer.start();
+                                    startTimer();
+
+                                }
+                                else
+                               finish();
                                 mTimerRunning=false;
                                 mButtonStartPause.setText("Start");
                                 mButtonStartPause.setVisibility(View.INVISIBLE);
