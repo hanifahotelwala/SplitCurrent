@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -128,6 +130,7 @@ public class Timer extends AppCompatActivity {
     }
 
     private void startTimer() {
+
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -140,10 +143,18 @@ public class Timer extends AppCompatActivity {
             @Override
             public void onFinish() {
                 if (numCircuitInput!=0) {
+                    try {
+                        TimeUnit.SECONDS.sleep(numRestLength);
+                    }
+                    catch(InterruptedException e)
+                    {
+                        toastMessage("Resting!!");
+                    }
                     //start();
                     numCircuitInput--;
                     mCircuitValue.setText(String.valueOf(numCircuitInput));
-                    restTimer(numCircuitInput);
+                    start();
+                    //restTimer(numCircuitInput);
 
                 }
                 else
@@ -167,7 +178,7 @@ public class Timer extends AppCompatActivity {
     }
 
     private void restTimer(int num){
-        final int value = num;
+    final int values = num;
         restCountDown = new CountDownTimer(mRestTimeInMillis, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
@@ -177,13 +188,15 @@ public class Timer extends AppCompatActivity {
                             }
                             @Override
                             public void onFinish() {
-                                if(value!=0) {
-                                    // mCountDownTimer.start();
-                                    startTimer();
-
-                                }
-                                else
-                               finish();
+                                int value =values;
+//                                if(value!=0) {
+//                                    // mCountDownTimer.start();
+//                                    startTimer();
+//                                    value--;
+//                                    toastMessage("value "+value);
+//                                }
+//                                else
+                            //   finish();
                                 mTimerRunning=false;
                                 mButtonStartPause.setText("Start");
                                 mButtonStartPause.setVisibility(View.INVISIBLE);
