@@ -1,21 +1,8 @@
 package com.example.android.splitfeatures;
 
-//import android.support.v7.app.AppCompatActivity;
-//import android.os.Bundle;
-//
-//public class Timer extends AppCompatActivity {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_timer);
-//    }
-//}
 
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,15 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Locale;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class Timer extends AppCompatActivity {
+
 
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
@@ -53,11 +38,10 @@ public class Timer extends AppCompatActivity {
     private EditText mRestPeriod;
     private long numRestLength;
 
-    boolean yes=false;
-    int counter =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final MediaPlayer templebell= MediaPlayer.create(Timer.this,R.raw.templebell);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
@@ -72,6 +56,7 @@ public class Timer extends AppCompatActivity {
         mCircuitLength = findViewById(R.id.circuitLength);
         mCircuits = findViewById(R.id.circuits);
         mRestPeriod = findViewById(R.id.restLength);
+
 
         mCircuitValue.setVisibility(GONE);
         mCircuits.setVisibility(GONE);
@@ -100,22 +85,15 @@ public class Timer extends AppCompatActivity {
 
                 } else {
                     if(numCircuitInput !=0) {
+
+                        templebell.start();
                         startTimer();
-                        //numCircuitInput--;
+                        numCircuitInput--;
                         mCircuitValue.setText(String.valueOf(numCircuitInput));
-                      //  restTimer();
-
-                    }
-                    else
-                        resetTimer();
-
-                    //counter++;
-                    //toastMessage("count:"+counter);
-
-
-                    }
                     }
 
+                    }
+            }
 
         });
 
@@ -136,103 +114,71 @@ public class Timer extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
-                mTimerRunning=true;
-
             }
-
             @Override
             public void onFinish() {
+                final MediaPlayer buzzer= MediaPlayer.create(Timer.this,R.raw.buzzer);
+                final MediaPlayer templebell= MediaPlayer.create(Timer.this,R.raw.templebell);
+                final MediaPlayer cheer= MediaPlayer.create(Timer.this,R.raw.cheer);
+
+
                 if (numCircuitInput!=0) {
                     try {
+                       buzzer.start();
                         TimeUnit.SECONDS.sleep(numRestLength);
+                      //  toastMessage("Resting!!");
+
                     }
                     catch(InterruptedException e)
                     {
-                        toastMessage("Resting!!");
+                        toastMessage("Resting not working");
                     }
-                    //start();
+
                     numCircuitInput--;
                     mCircuitValue.setText(String.valueOf(numCircuitInput));
+                   templebell.start();
                     start();
-                    //restTimer(numCircuitInput);
-
                 }
-                else
-                finish();
+                else {
+                    cheer.start();
+                    finish();
+                }
                 mTimerRunning=false;
                 mButtonStartPause.setText("Start");
                 mButtonStartPause.setVisibility(View.INVISIBLE);
                 mButtonReset.setVisibility(View.VISIBLE);
-
                 }
-          // }
         }.start();
-
         mTimerRunning = true;
-        mButtonStartPause.setText("pause");
+        mButtonStartPause.setText("Stop");
         mButtonReset.setVisibility(View.INVISIBLE);
         mCircuitInput.setVisibility(View.GONE);
         mCircuitValue.setVisibility(VISIBLE);
         mCircuits.setVisibility(VISIBLE);
-
+        mCircuitLength.setVisibility(GONE);
+        mRestPeriod.setVisibility(GONE);
     }
 
-    private void restTimer(int num){
-    final int values = num;
-        restCountDown = new CountDownTimer(mRestTimeInMillis, 1000) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                mRestTimeInMillis = millisUntilFinished;
-                                updateCountDownTextRest();
-                             mTimerRunning=true;
-                            }
-                            @Override
-                            public void onFinish() {
-                                int value =values;
-//                                if(value!=0) {
-//                                    // mCountDownTimer.start();
-//                                    startTimer();
-//                                    value--;
-//                                    toastMessage("value "+value);
-//                                }
-//                                else
-                            //   finish();
-                                mTimerRunning=false;
-                                mButtonStartPause.setText("Start");
-                                mButtonStartPause.setVisibility(View.INVISIBLE);
-                                mButtonReset.setVisibility(VISIBLE);
-                                }
-
-
-                        }.start();
-//        yes = true;
-        mTimerRunning = true;
-        mButtonStartPause.setText("pause");
-        mButtonReset.setVisibility(View.INVISIBLE);
-        mCircuitInput.setVisibility(View.GONE);
-
-    }
 
     private void pauseTimer() {
-        mCountDownTimer.cancel();
+       mCountDownTimer.cancel();
         mTimerRunning = false;
-        mButtonStartPause.setText("Start");
+        mButtonStartPause.setText("Start over");
         mButtonReset.setVisibility(VISIBLE);
         mCircuitInput.setVisibility(GONE);
         mCircuitLength.setVisibility(GONE);
         mCircuitValue.setVisibility(VISIBLE);
         mCircuits.setVisibility(VISIBLE);
-
     }
 
     private void resetTimer() {
-        mRestTimeInMillis = numRestLength;
         mTimeLeftInMillis = numCircuitLength;
         updateCountDownText();
         mButtonReset.setVisibility(View.INVISIBLE);
         mButtonStartPause.setVisibility(VISIBLE);
         mCircuitInput.setVisibility(VISIBLE);
         mCircuitLength.setVisibility(VISIBLE);
+        mRestPeriod.setVisibility(VISIBLE);
         mCircuitValue.setVisibility(GONE);
         mCircuits.setVisibility(GONE);
 
@@ -243,14 +189,6 @@ public class Timer extends AppCompatActivity {
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         mTextViewCountDown.setText(timeLeftFormatted);
-    }
-
-    private void updateCountDownTextRest(){
-        int minutesRest = (int) (mRestTimeInMillis / 1000) / 60;
-        int secondsRest = (int) (mRestTimeInMillis / 1000) % 60;
-        String timeLeftFormattedRest = String.format(Locale.getDefault(), "%02d:%02d", minutesRest, secondsRest);
-        mTextViewCountDown.setText(timeLeftFormattedRest);
-
     }
 
 private void toastMessage(String message){
