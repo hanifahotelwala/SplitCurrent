@@ -181,7 +181,6 @@ public class ListData extends AppCompatActivity {
                         break;
                 }
 
-
                 return false;
             }
         });
