@@ -3,6 +3,7 @@ package com.example.android.splitfeatures;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+
 public class PhotoLibrary extends AppCompatActivity {
 
     @Override
@@ -11,3 +12,4 @@ public class PhotoLibrary extends AppCompatActivity {
         setContentView(R.layout.activity_photo_library);
     }
 }
+

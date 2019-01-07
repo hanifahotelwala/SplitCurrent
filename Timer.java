@@ -1,15 +1,28 @@
 package com.example.android.splitfeatures;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
+import com.example.android.splitfeatures.notes.Notes;
+import com.example.android.splitfeatures.workoutsplit.WorkoutSplit;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import static android.view.View.GONE;
@@ -38,7 +51,9 @@ public class Timer extends AppCompatActivity {
     private EditText mRestPeriod;
     private long numRestLength;
 
-
+    private static final String TAG = "Timer";
+    private static final int ACTIVITY_NUM=2;
+    private Context mContext= Timer.this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final MediaPlayer templebell= MediaPlayer.create(Timer.this,R.raw.templebell);
@@ -105,7 +120,57 @@ public class Timer extends AppCompatActivity {
         });
             updateCountDownText();
 
+        setupBottomNavigationView();
+
     }
+
+    /**
+     * BottomNavigationView setup
+     */
+    private void setupBottomNavigationView(){
+        Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
+        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
+        Menu menu = bottomNavigationViewEx.getMenu();
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        menuItem.setChecked(true);
+
+        bottomNavigationViewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Intent intent1 = new Intent(Timer.this, FeaturesActivity.class);
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.ic_workoutsplit:
+                        Intent intent2 = new Intent(Timer.this, WorkoutSplit.class);
+                        startActivity(intent2);
+                        break;
+
+                    case R.id.ic_timer:
+
+                        break;
+
+                    case R.id.ic_camera:
+                        Intent intent3 = new Intent(Timer.this, Camera.class);
+                        startActivity(intent3);
+                        break;
+
+                    case R.id.ic_notes:
+                        Intent intent4 = new Intent(Timer.this, Notes.class);
+                        startActivity(intent4);
+                        break;
+                }
+
+
+                return false;
+            }
+        });
+    }
+
 
     private void startTimer() {
 

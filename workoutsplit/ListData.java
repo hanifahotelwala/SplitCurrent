@@ -1,14 +1,27 @@
 package com.example.android.splitfeatures.workoutsplit;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
+
+import com.example.android.splitfeatures.Camera;
+import com.example.android.splitfeatures.FeaturesActivity;
 import com.example.android.splitfeatures.R;
+import com.example.android.splitfeatures.Timer;
+import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
+import com.example.android.splitfeatures.notes.Notes;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 
 import java.util.ArrayList;
@@ -21,6 +34,9 @@ public class ListData extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
     private Button clear;
 
+    private Context mContext= ListData.this;
+    private static final int ACTIVITY_NUM=1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +45,7 @@ public class ListData extends AppCompatActivity {
         mExpandableList = findViewById(R.id.expandableListView);
         mDatabaseHelper = new DatabaseHelper(this);
         clear = findViewById(R.id.clearAll);
+        clear.setFocusable(false);
 
         ArrayList<Parent> arrayParents = new ArrayList<Parent>();
         ArrayList<String> arrayChildren;// = new ArrayList<String>();
@@ -105,6 +122,7 @@ public class ListData extends AppCompatActivity {
             }
 
         });
+
         /**
          * deletes all entries
          */
@@ -120,8 +138,56 @@ public class ListData extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
             }
         });
+        setupBottomNavigationView();
 
     }
+
+    private void setupBottomNavigationView(){
+
+        BottomNavigationViewEx bottomNavigationViewEx =findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
+        Menu menu = bottomNavigationViewEx.getMenu();
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        menuItem.setChecked(true);
+
+        bottomNavigationViewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Intent intent = new Intent(ListData.this, FeaturesActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    case R.id.ic_workoutsplit:
+                        Intent intent1 = new Intent(ListData.this, WorkoutSplit.class);
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.ic_timer:
+                        Intent intent2 = new Intent(ListData.this, Timer.class);
+                        startActivity(intent2);
+                        break;
+
+                    case R.id.ic_camera:
+                        Intent intent3 = new Intent(ListData.this, Camera.class);
+                        startActivity(intent3);
+                        break;
+
+                    case R.id.ic_notes:
+                        Intent intent4 = new Intent(ListData.this, Notes.class);
+                        startActivity(intent4);
+                        break;
+                }
+
+
+                return false;
+            }
+        });
+
+    }
+
 
     public void goHome(){
         Intent intent = new Intent(this, WorkoutSplit.class);

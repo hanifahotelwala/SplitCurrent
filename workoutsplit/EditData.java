@@ -1,15 +1,26 @@
 package com.example.android.splitfeatures.workoutsplit;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.splitfeatures.Camera;
+import com.example.android.splitfeatures.FeaturesActivity;
 import com.example.android.splitfeatures.R;
+import com.example.android.splitfeatures.Timer;
+import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
+import com.example.android.splitfeatures.notes.Notes;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 /**
  * for workoutsplit
@@ -26,6 +37,10 @@ public class EditData extends AppCompatActivity {
     private String selectedName;
 
     private int selectedID;
+
+
+    private Context mContext= EditData.this;
+    private static final int ACTIVITY_NUM=1;
 
 
     @Override
@@ -81,7 +96,55 @@ public class EditData extends AppCompatActivity {
             }
         });
 
+        setupBottomNavigationView();
     }
+
+    private void setupBottomNavigationView(){
+
+        BottomNavigationViewEx bottomNavigationViewEx =findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
+        Menu menu = bottomNavigationViewEx.getMenu();
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        menuItem.setChecked(true);
+
+        bottomNavigationViewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Intent intent = new Intent(EditData.this, FeaturesActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    case R.id.ic_workoutsplit:
+                        Intent intent1 = new Intent(EditData.this, WorkoutSplit.class);
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.ic_timer:
+                        Intent intent2 = new Intent(EditData.this, Timer.class);
+                        startActivity(intent2);
+                        break;
+
+                    case R.id.ic_camera:
+                        Intent intent3 = new Intent(EditData.this, Camera.class);
+                        startActivity(intent3);
+                        break;
+
+                    case R.id.ic_notes:
+                        Intent intent4 = new Intent(EditData.this, Notes.class);
+                        startActivity(intent4);
+                        break;
+                }
+
+
+                return false;
+            }
+        });
+
+    }
+
 
     /**
      * customizable toast
