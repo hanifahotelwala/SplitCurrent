@@ -1,0 +1,38 @@
+I have used many sources for assistance to help me create Split. I have used the following sources
+listed below and have made necessary changes to suit my needs.
+
+
+/**
+Coding with mitch sources:
+*/
+Bottom navigation activity bar throughout the app:
+   video:  https://www.youtube.com/watch?v=xyGrdOqseuw&ab_channel=CodingWithMitch
+   git:  https://github.com/mitchtabian/AppBarLayouts/tree/master/ActionBar%20Bottom%20Navigation
+
+Exercise Log saving data and adding it to a list view:
+   video:  https://www.youtube.com/watch?v=SK98ayjhk1E&ab_channel=CodingWithMitch
+   git: https://github.com/mitchtabian/EditableListView
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+/**
+CodingInFlow sources
+*/
+video: https://www.youtube.com/watch?v=MDuGwI6P-X8&ab_channel=CodinginFlow
+git: https://codinginflow.com/tutorials/android/countdowntimer/part-1-countdown-timer
+
+/////////////////////////////////////////////////////////////////////////////////////
+/**
+Other
+*/
+Expandable ListView
+   code: https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/widget/ExpandableListView.java
+
+Camera Api:
+    https://developer.android.com/guide/topics/media/camera
+
+Several different audio playing in timer have all been retrieved from:
+http://soundbible.com
+
+
