@@ -32,7 +32,7 @@ public class Home extends AppCompatActivity {
             }
 
         };
-        timer.start();
+       timer.start();
 
 
     }
