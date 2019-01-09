@@ -25,7 +25,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
-import com.example.android.splitfeatures.notes.Notes;
 import com.example.android.splitfeatures.workoutsplit.WorkoutSplit;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -33,11 +32,6 @@ public class Camera extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final String TAG = "Camera";
-
-
-    /**
-     * for bottom nav
-     */
     private static final int ACTIVITY_NUM=3;
     private Context mContext= Camera.this;
 
@@ -48,9 +42,7 @@ public class Camera extends AppCompatActivity {
 
        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
        startActivityForResult(cameraIntent,REQUEST_IMAGE_CAPTURE);
-
         setupBottomNavigationView();
-
 
     }
 
@@ -88,8 +80,8 @@ public class Camera extends AppCompatActivity {
 
                         break;
 
-                    case R.id.ic_notes:
-                        Intent intent4 = new Intent(Camera.this, Notes.class);
+                    case R.id.ic_photo:
+                        Intent intent4 = new Intent(Camera.this, PhotoLibrary.class);
                         startActivity(intent4);
                         break;
                 }

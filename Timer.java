@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
-import com.example.android.splitfeatures.notes.Notes;
 import com.example.android.splitfeatures.workoutsplit.WorkoutSplit;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -29,7 +28,6 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class Timer extends AppCompatActivity {
-
 
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
@@ -159,8 +157,8 @@ public class Timer extends AppCompatActivity {
                         startActivity(intent3);
                         break;
 
-                    case R.id.ic_notes:
-                        Intent intent4 = new Intent(Timer.this, Notes.class);
+                    case R.id.ic_photo:
+                        Intent intent4 = new Intent(Timer.this, PhotoLibrary.class);
                         startActivity(intent4);
                         break;
                 }

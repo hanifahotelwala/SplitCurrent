@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.example.android.splitfeatures.Camera;
 import com.example.android.splitfeatures.FeaturesActivity;
+import com.example.android.splitfeatures.PhotoLibrary;
 import com.example.android.splitfeatures.Timer;
-import com.example.android.splitfeatures.notes.Notes;
 import com.example.android.splitfeatures.workoutsplit.WorkoutSplit;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import android.content.Context;
@@ -59,8 +59,8 @@ public class BottomNavigationViewHelper {
                         context.startActivity(intent4);
                         break;
 
-                    case R.id.ic_notes:
-                        Intent intent5 = new Intent(context, Notes.class);//ACTIVITY_NUM = 4
+                    case R.id.ic_photo:
+                        Intent intent5 = new Intent(context, PhotoLibrary.class);//ACTIVITY_NUM = 4
                         context.startActivity(intent5);
                         break;
                 }

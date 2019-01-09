@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-
 /**
  * for workoutsplit
  */
@@ -145,7 +144,6 @@ import android.util.Log;
             Log.d(TAG, "deleteName: Deleting " + name + " from database.");
             db.execSQL(query);
         }
-
 
     }
 

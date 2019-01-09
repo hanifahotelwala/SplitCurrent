@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,10 +17,18 @@ import android.widget.Toast;
 
 import com.example.android.splitfeatures.Camera;
 import com.example.android.splitfeatures.FeaturesActivity;
+import com.example.android.splitfeatures.PhotoLibrary;
 import com.example.android.splitfeatures.R;
 import com.example.android.splitfeatures.Timer;
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
-import com.example.android.splitfeatures.notes.Notes;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 /**
@@ -42,6 +51,12 @@ public class EditData extends AppCompatActivity {
     private Context mContext= EditData.this;
     private static final int ACTIVITY_NUM=1;
 
+    //firebase
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference myRef;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +65,11 @@ public class EditData extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnDelete = findViewById(R.id.btnDelete);
         editable_item = findViewById(R.id.editable_item);
+        /**
+         * firebase
+         */
+        setupFirebaseAuth();
+
 
         //get the intent extra from the ListDataActivity
         Intent receivedIntent = getIntent();
@@ -71,6 +91,7 @@ public class EditData extends AppCompatActivity {
                 String item = editable_item.getText().toString();
                 if(!item.equals("")){
                     mDatabaseHelper.updateName(item,selectedID,selectedName);
+
                     goHome();
                     toastMessage("Saved!");
                 }else{
@@ -83,15 +104,22 @@ public class EditData extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-               // if(selectedID > -1) {
                 mDatabaseHelper.deleteName(selectedID, selectedName);
                     editable_item.setText("");
                     goHome();
                     toastMessage("Removed from database");
-               // }
-               // else
-                   // toastMessage("Could not be deleted.");
+
+                /**
+                 * TODO: attempt to delete only a single child!!!!!
+                 */
+                myRef=mFirebaseDatabase.getInstance().getReference().getRoot().child("sets");
+                toastMessage("myRef"+myRef);
+                myRef.setValue(null);
+
+
+
+
+
 
             }
         });
@@ -132,8 +160,8 @@ public class EditData extends AppCompatActivity {
                         startActivity(intent3);
                         break;
 
-                    case R.id.ic_notes:
-                        Intent intent4 = new Intent(EditData.this, Notes.class);
+                    case R.id.ic_photo:
+                        Intent intent4 = new Intent(EditData.this, PhotoLibrary.class);
                         startActivity(intent4);
                         break;
                 }
@@ -158,6 +186,65 @@ public class EditData extends AppCompatActivity {
         Intent intent = new Intent(this, ListData.class);
         startActivity(intent);
     }
+
+    /**
+     * Setup the firebase auth object
+     */
+    private void setupFirebaseAuth(){
+        Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //retrieve user information from the database
+
+
+                //retrieve images for the user in question
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mAuthListener != null) {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//        }
+//    }
 }
-
-

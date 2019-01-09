@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends BaseExpandableListAdapter {
 
-
     private LayoutInflater inflater;
     private ArrayList<Parent> mParent;
 
@@ -22,7 +21,6 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         mParent = parent;
         inflater = LayoutInflater.from(context);
     }
-
 
     @Override
     //counts the number of group/parent items so the list knows how many times calls getGroupView() method

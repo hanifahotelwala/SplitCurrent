@@ -11,16 +11,25 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.example.android.splitfeatures.Camera;
 import com.example.android.splitfeatures.FeaturesActivity;
+import com.example.android.splitfeatures.PhotoLibrary;
 import com.example.android.splitfeatures.R;
 import com.example.android.splitfeatures.Timer;
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
-import com.example.android.splitfeatures.notes.Notes;
+import com.example.android.splitfeatures.Utils.UserWorkoutSplit;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 
@@ -29,7 +38,7 @@ import java.util.ArrayList;
 
 public class ListData extends AppCompatActivity {
 
-
+    private static final String TAG= "ListData";
     private ExpandableListView mExpandableList;
     DatabaseHelper mDatabaseHelper;
     private Button clear;
@@ -37,10 +46,22 @@ public class ListData extends AppCompatActivity {
     private Context mContext= ListData.this;
     private static final int ACTIVITY_NUM=1;
 
+    //firebase
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference myRef;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_data);
+        /**
+         * firebase
+         */
+        setupFirebaseAuth();
+
 
         mExpandableList = findViewById(R.id.expandableListView);
         mDatabaseHelper = new DatabaseHelper(this);
@@ -131,6 +152,11 @@ public class ListData extends AppCompatActivity {
             public void onClick(View view) {
                 if(mDatabaseHelper.getData()!=null){
                     mDatabaseHelper.deleteAll();
+
+                    myRef=mFirebaseDatabase.getInstance().getReference().getRoot().child("workout");
+                    toastMessage("myRef"+myRef);
+                    myRef.setValue(null);
+
                     goHome();}
                 else
                     Toast.makeText(getApplicationContext(),
@@ -141,6 +167,11 @@ public class ListData extends AppCompatActivity {
         setupBottomNavigationView();
 
     }
+
+    private void toastMessage(String message){
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+    }
+
 
     private void setupBottomNavigationView(){
 
@@ -175,8 +206,8 @@ public class ListData extends AppCompatActivity {
                         startActivity(intent3);
                         break;
 
-                    case R.id.ic_notes:
-                        Intent intent4 = new Intent(ListData.this, Notes.class);
+                    case R.id.ic_photo:
+                        Intent intent4 = new Intent(ListData.this, PhotoLibrary.class);
                         startActivity(intent4);
                         break;
                 }
@@ -193,6 +224,69 @@ public class ListData extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Setup the firebase auth object
+     */
+    private void setupFirebaseAuth(){
+        Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //retrieve user information from the database
+
+
+                //retrieve images for the user in question
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mAuthListener != null) {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//        }
+//    }
+
+
+
+
 
 }
-
