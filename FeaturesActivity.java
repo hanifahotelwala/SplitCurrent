@@ -37,9 +37,6 @@ public class FeaturesActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_features);
 
-
-
-
         signout = findViewById(R.id.signout);
         signout.setOnClickListener(new View.OnClickListener(){
             @Override

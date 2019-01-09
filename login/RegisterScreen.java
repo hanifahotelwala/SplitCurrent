@@ -25,9 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RegisterScreen extends AppCompatActivity {
 
-
     private static final String TAG = "RegisterActivity";
-
     private Context mContext;
     private String email, username, password;
     private EditText mEmail, mPassword, mUsername;
@@ -152,8 +150,6 @@ public class RegisterScreen extends AppCompatActivity {
                             Toast.makeText(mContext,"Signup successful. Sending verification email ",Toast.LENGTH_LONG).show();
                             mAuth.signOut();
 
-
-
                         }
 
                         @Override
@@ -165,9 +161,8 @@ public class RegisterScreen extends AppCompatActivity {
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-
                 }
-                // ...
+
             }
         };
     }

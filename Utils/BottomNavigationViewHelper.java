@@ -23,8 +23,6 @@ import com.example.android.splitfeatures.R;
 public class BottomNavigationViewHelper {
 
     private static final String TAG = "BottomNavigationViewHel";
-
-
     public static void setupBottomNavigationView(BottomNavigationViewEx bottomNavigationViewEx){
         Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
         bottomNavigationViewEx.enableAnimation(false);
@@ -64,7 +62,6 @@ public class BottomNavigationViewHelper {
                         context.startActivity(intent5);
                         break;
                 }
-
 
                 return false;
             }

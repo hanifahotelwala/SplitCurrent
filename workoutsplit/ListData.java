@@ -61,8 +61,6 @@ public class ListData extends AppCompatActivity {
          * firebase
          */
         setupFirebaseAuth();
-
-
         mExpandableList = findViewById(R.id.expandableListView);
         mDatabaseHelper = new DatabaseHelper(this);
         clear = findViewById(R.id.clearAll);

@@ -85,7 +85,6 @@ import static android.R.id.message;
                 return false;
             }
         }
-
      /*
     ------------------------------------ Firebase ---------------------------------------------
      */

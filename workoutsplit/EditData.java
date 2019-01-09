@@ -116,11 +116,6 @@ public class EditData extends AppCompatActivity {
                 toastMessage("myRef"+myRef);
                 myRef.setValue(null);
 
-
-
-
-
-
             }
         });
 
@@ -165,14 +160,11 @@ public class EditData extends AppCompatActivity {
                         startActivity(intent4);
                         break;
                 }
-
-
                 return false;
             }
         });
 
     }
-
 
     /**
      * customizable toast

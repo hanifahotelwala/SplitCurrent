@@ -35,7 +35,6 @@ public class ListDataFirebase extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
     String userID;
-
     private ListView mListView;
 
     @Override

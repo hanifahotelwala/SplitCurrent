@@ -95,7 +95,6 @@ public class WorkoutSplit extends AppCompatActivity {
             }
         };
 
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -1,6 +1,5 @@
 package com.example.android.splitfeatures.Utils;
 
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -17,9 +16,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * Created by User on 6/26/2017.
- */
 
 public class FirebaseMethods {
 
@@ -93,8 +89,6 @@ public class FirebaseMethods {
 
                     }
                 });
-
-
     }
 
 
@@ -202,6 +196,5 @@ public class FirebaseMethods {
         return new UserSettings(user, workoutsplit);
 
     }
-
 
 }

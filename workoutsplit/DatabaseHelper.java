@@ -14,14 +14,11 @@ import android.util.Log;
     public class DatabaseHelper extends SQLiteOpenHelper {
 
         private static final String TAG = "DatabaseHelper";
-
         private static final String TABLE_NAME = "workoutsplit_table";
         private static final String COL1 = "ID";
         private static final String COL2 = "WORKOUT";
         private static final String COL3 = "SETS";
         private static final String COL4 = "REPS";
-
-
 
         public DatabaseHelper(Context context) {
             super(context, TABLE_NAME, null, 1);

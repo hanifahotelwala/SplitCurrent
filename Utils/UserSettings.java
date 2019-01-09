@@ -14,7 +14,6 @@ public class UserSettings {
 
     }
 
-
     public User getUser() {
         return user;
     }

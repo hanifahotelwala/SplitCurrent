@@ -4,7 +4,6 @@ package com.example.android.splitfeatures.Utils;
  ** used in registerScreen activity
  */
 
-
 public class StringManinpulation {
 
     public static String expandUsername(String username){

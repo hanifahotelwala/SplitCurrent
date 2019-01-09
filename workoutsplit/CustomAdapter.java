@@ -21,7 +21,6 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         mParent = parent;
         inflater = LayoutInflater.from(context);
     }
-
     @Override
     //counts the number of group/parent items so the list knows how many times calls getGroupView() method
     public int getGroupCount() {
