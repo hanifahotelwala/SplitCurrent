@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.splitfeatures.PhotoLibrary;
 import com.example.android.splitfeatures.R;
 import com.example.android.splitfeatures.Utils.FirebaseMethods;
 import com.example.android.splitfeatures.Utils.UniversalImageLoader;
@@ -25,7 +26,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
+/**
+ * share activity screen after picture is taken where caption is written
+ */
 public class GalleryActivity extends AppCompatActivity {
 
     private static final String TAG = "NextActivity";
@@ -78,33 +81,20 @@ public class GalleryActivity extends AppCompatActivity {
                 if(intent.hasExtra(getString(R.string.selected_image))){
                     imgUrl = intent.getStringExtra(getString(R.string.selected_image));
                     mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), caption, imageCount, imgUrl,null);
+
                 }
                 else if(intent.hasExtra(getString(R.string.selected_bitmap))){
                     bitmap = (Bitmap) intent.getParcelableExtra(getString(R.string.selected_bitmap));
                     mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), caption, imageCount, null,bitmap);
                 }
-
-
+//            Intent intent1 = new Intent(GalleryActivity.this, PhotoLibrary.class);
+//                startActivity(intent1);
 
             }
         });
 
         setImage();
-    }
 
-    private void someMethod(){
-        /*
-            Step 1)
-            Create a data model for Photos
-            Step 2)
-            Add properties to the Photo Objects (caption, date, imageUrl, photo_id, tags, user_id)
-            Step 3)
-            Count the number of photos that the user already has.
-            Step 4)
-            a) Upload the photo to Firebase Storage
-            b) insert into 'photos' node
-            c) insert into 'user_photos' node
-         */
 
     }
 
@@ -123,10 +113,11 @@ public class GalleryActivity extends AppCompatActivity {
             UniversalImageLoader.setImage(imgUrl, image, null, mAppend);
         }
         else if(intent.hasExtra(getString(R.string.selected_bitmap))){
-            bitmap = (Bitmap) intent.getParcelableExtra(getString(R.string.selected_bitmap));
+            bitmap = intent.getParcelableExtra(getString(R.string.selected_bitmap));
             Log.d(TAG, "setImage: got new bitmap");
             image.setImageBitmap(bitmap);
         }
+
     }
 
      /*

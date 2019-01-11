@@ -127,7 +127,7 @@ public class Timer extends AppCompatActivity {
      */
     private void setupBottomNavigationView(){
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
-        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewEx bottomNavigationViewEx = findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
         BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
         Menu menu = bottomNavigationViewEx.getMenu();
@@ -138,13 +138,13 @@ public class Timer extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.home:
-                        Intent intent1 = new Intent(Timer.this, FeaturesActivity.class);
+                    case R.id.ic_home:
+                        Intent intent1 = new Intent(mContext, FeaturesActivity.class);
                         startActivity(intent1);
                         break;
 
                     case R.id.ic_workoutsplit:
-                        Intent intent2 = new Intent(Timer.this, WorkoutSplit.class);
+                        Intent intent2 = new Intent(mContext, WorkoutSplit.class);
                         startActivity(intent2);
                         break;
 
@@ -153,12 +153,12 @@ public class Timer extends AppCompatActivity {
                         break;
 
                     case R.id.ic_camera:
-                        Intent intent3 = new Intent(Timer.this, Camera.class);
+                        Intent intent3 = new Intent(mContext, Camera.class);
                         startActivity(intent3);
                         break;
 
                     case R.id.ic_photo:
-                        Intent intent4 = new Intent(Timer.this, PhotoLibrary.class);
+                        Intent intent4 = new Intent(mContext, PhotoLibrary.class);
                         startActivity(intent4);
                         break;
                 }

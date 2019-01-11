@@ -9,8 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.android.splitfeatures.CameraAndPhotoLib.Photo;
-import com.example.android.splitfeatures.CameraAndPhotoLib.ShareActivity;
-import com.example.android.splitfeatures.Utils.ImageManager;
+import com.example.android.splitfeatures.PhotoLibrary;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -83,6 +82,11 @@ public class FirebaseMethods {
                 bm = ImageManager.getBitmap(imgUrl);
             }
 
+            //**
+
+
+                ///
+
             byte[] bytes =ImageManager.getBytesFromBitmap(bm, 100);
 
             UploadTask uploadTask = null;
@@ -92,7 +96,18 @@ public class FirebaseMethods {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 //    Uri firebaseUrl = taskSnapshot.getDownloadUrl();
-                    Uri firebaseUrl = taskSnapshot.getUploadSessionUri();
+                   // Uri firebaseUrl = taskSnapshot.getUploadSessionUri();
+                   // Uri firebaseUrl = taskSnapshot.getStorage().getDownloadUrl();
+                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!urlTask.isSuccessful());
+                    Uri firebaseUrl = urlTask.getResult();
+
+//                    Log.d(TAG, "onSuccess: firebase download url: " + downloadUrl.toString());
+//                    Photo upload = new Photo(.getCaption().getText().toString().trim(),downloadUrl.toString());
+//
+//                    String uploadId = databaseReference.push().getKey();
+//                    databaseReference.child(uploadId).setValue(upload);
+
 
 
                     Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
@@ -101,7 +116,7 @@ public class FirebaseMethods {
                     addPhotoToDatabase(caption,firebaseUrl.toString());
 
                     //navigate to the main feed so the user can see their photo
-                    Intent intent = new Intent(mContext, ShareActivity.class);
+                    Intent intent = new Intent(mContext, PhotoLibrary.class);
                     mContext.startActivity(intent);
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -177,22 +192,22 @@ public class FirebaseMethods {
 
 
 
-//    private String getTimestamp(){
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US;
-//       // sdf.setTimeZone(TimeZone.getTimeZone("Canada/Pacific"));
-//        return sdf.format(new Date());
-//    }
+    private String getTimestamp(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+       // sdf.setTimeZone(TimeZone.getTimeZone("Canada/Pacific"));
+        return sdf.format(new Date());
+    }
 
     private void addPhotoToDatabase(String caption,String url){
         Log.d(TAG, "addPhotoToDatabase: adding photo to database.");
 
-       // String tags = StringManinpulation.getTags(caption);
+        String tags = StringManinpulation.getTags(caption);
         String newPhotoKey = myRef.child(mContext.getString(R.string.dbname_photos)).push().getKey();
         Photo photo = new Photo();
         photo.setCaption(caption);
-        //photo.setDate_created(getTimestamp());
+        photo.setDate_created(getTimestamp());
         photo.setImage_path(url);
-       // photo.setTags(tags);
+        photo.setTags(tags);
         photo.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
         photo.setPhoto_id(newPhotoKey);
 

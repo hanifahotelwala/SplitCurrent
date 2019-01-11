@@ -89,13 +89,13 @@ public class RegisterScreen extends AppCompatActivity {
      * Initialize the activity widgets
      */
     private void initWidgets(){
-        mUsername = (EditText) findViewById(R.id.input_username);
-        btnRegister = (Button) findViewById(R.id.btn_register);
+        mUsername = findViewById(R.id.input_username);
+        btnRegister = findViewById(R.id.btn_register);
         Log.d(TAG, "initWidgets: Initializing Widgets.");
-        mEmail = (EditText) findViewById(R.id.input_email);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        loadingPleaseWait = (TextView) findViewById(R.id.loadingPleaseWait);
-        mPassword = (EditText) findViewById(R.id.input_password);
+        mEmail = findViewById(R.id.input_email);
+        mProgressBar = findViewById(R.id.progressBar);
+        loadingPleaseWait = findViewById(R.id.loadingPleaseWait);
+        mPassword = findViewById(R.id.input_password);
         mContext = RegisterScreen.this;
         mProgressBar.setVisibility(View.GONE);
         loadingPleaseWait.setVisibility(View.GONE);
@@ -105,12 +105,7 @@ public class RegisterScreen extends AppCompatActivity {
     private boolean isStringNull(String string){
         Log.d(TAG, "isStringNull: checking string if null.");
 
-        if(string.equals("")){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return string.equals("");
     }
 
      /*

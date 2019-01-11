@@ -22,6 +22,8 @@ import com.example.android.splitfeatures.R;
 import com.example.android.splitfeatures.Timer;
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
 
+import com.example.android.splitfeatures.Utils.User;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -100,6 +102,7 @@ public class EditData extends AppCompatActivity {
             }
         });
 
+
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,10 +112,16 @@ public class EditData extends AppCompatActivity {
                     goHome();
                     toastMessage("Removed from database");
 
+                    User user = new User();
+
                 /**
                  * TODO: attempt to delete only a single child!!!!!
                  */
-                myRef=mFirebaseDatabase.getInstance().getReference().getRoot().child("sets");
+              myRef= FirebaseDatabase.getInstance().getReference().getRoot().child("workout")
+                      .child("selectedName");
+              myRef.removeValue();
+
+                //myRef=mFirebaseDatabase.getInstance().getReference().dataSnapshot
                 toastMessage("myRef"+myRef);
                 myRef.setValue(null);
 
@@ -135,7 +144,7 @@ public class EditData extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.home:
+                    case R.id.ic_home:
                         Intent intent = new Intent(EditData.this, FeaturesActivity.class);
                         startActivity(intent);
                         break;

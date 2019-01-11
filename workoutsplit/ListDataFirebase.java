@@ -41,7 +41,7 @@ public class ListDataFirebase extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_data_firebase);
-        mListView = (ListView) findViewById(R.id.listview);
+        mListView = findViewById(R.id.listview);
 
         //declare the database reference object. This is what we use to access the database.
         //NOTE: Unless you are signed in, this will not be useable.

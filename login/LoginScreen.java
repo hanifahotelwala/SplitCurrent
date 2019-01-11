@@ -78,12 +78,7 @@ import static android.R.id.message;
         private boolean isStringNull(String string){
             Log.d(TAG, "isStringNull: checking string if null.");
 
-            if(string.equals("")){
-                return true;
-            }
-            else{
-                return false;
-            }
+            return string.equals("");
         }
      /*
     ------------------------------------ Firebase ---------------------------------------------
@@ -92,7 +87,7 @@ import static android.R.id.message;
         private void init(){
 
             //initialize the button for logging in
-            Button btnLogin = (Button) findViewById(R.id.btn_login);
+            Button btnLogin = findViewById(R.id.btn_login);
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -151,7 +146,7 @@ import static android.R.id.message;
                 }
             });
 
-        TextView linkSignUp = (TextView) findViewById(R.id.link_signup);
+        TextView linkSignUp = findViewById(R.id.link_signup);
                         linkSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

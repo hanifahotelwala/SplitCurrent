@@ -35,6 +35,7 @@ public class GridImageAdapter extends ArrayAdapter<String>{
         this.layoutResource = layoutResource;
         mAppend = append;
         this.imgURLs = imgURLs;
+
     }
 
     private static class ViewHolder{
@@ -62,20 +63,20 @@ public class GridImageAdapter extends ArrayAdapter<String>{
         else{
             holder = (ViewHolder) convertView.getTag();
         }
-       // imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
 
         String imgURL = getItem(position);
 
-       // ImageLoader imageLoader;
-        imageLoader = ImageLoader.getInstance();
 
+        imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
+
+
             imageLoader.displayImage(mAppend + imgURL, holder.image, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
                 if(holder.mProgressBar != null){
                     holder.mProgressBar.setVisibility(View.VISIBLE);
-                   imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
+
                 }
             }
 
@@ -83,7 +84,7 @@ public class GridImageAdapter extends ArrayAdapter<String>{
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                 if(holder.mProgressBar != null){
                     holder.mProgressBar.setVisibility(View.GONE);
-                    imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
+
                 }
             }
 
@@ -91,7 +92,8 @@ public class GridImageAdapter extends ArrayAdapter<String>{
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 if(holder.mProgressBar != null){
                     holder.mProgressBar.setVisibility(View.GONE);
-                    imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
+
+
                 }
             }
 
@@ -99,12 +101,16 @@ public class GridImageAdapter extends ArrayAdapter<String>{
             public void onLoadingCancelled(String imageUri, View view) {
                 if(holder.mProgressBar != null){
                     holder.mProgressBar.setVisibility(View.GONE);
-                    imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
+
                 }
             }
         });
 
+
+       imageLoader.destroy();
         return convertView;
+
     }
+
 }
 

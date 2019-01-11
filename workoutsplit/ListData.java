@@ -22,7 +22,6 @@ import com.example.android.splitfeatures.PhotoLibrary;
 import com.example.android.splitfeatures.R;
 import com.example.android.splitfeatures.Timer;
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
-import com.example.android.splitfeatures.Utils.UserWorkoutSplit;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -150,8 +149,10 @@ public class ListData extends AppCompatActivity {
             public void onClick(View view) {
                 if(mDatabaseHelper.getData()!=null){
                     mDatabaseHelper.deleteAll();
-
-                    myRef=mFirebaseDatabase.getInstance().getReference().getRoot().child("workout");
+                    /**
+                     * deletes entire database TODO: need fixing
+                     */
+                    myRef= FirebaseDatabase.getInstance().getReference().getRoot().child("workout");
                     toastMessage("myRef"+myRef);
                     myRef.setValue(null);
 
@@ -184,7 +185,7 @@ public class ListData extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.home:
+                    case R.id.ic_home:
                         Intent intent = new Intent(ListData.this, FeaturesActivity.class);
                         startActivity(intent);
                         break;

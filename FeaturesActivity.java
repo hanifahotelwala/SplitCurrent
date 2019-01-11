@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import com.example.android.splitfeatures.R;
+
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
 import com.example.android.splitfeatures.login.LoginScreen;
 import com.example.android.splitfeatures.login.SignOut;
@@ -75,13 +75,7 @@ public class FeaturesActivity extends AppCompatActivity  {
                 goToTimer();
             }
         });
-        notesButton = findViewById(R.id.notesButton);
-        notesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToPhotoLib();
-            }
-        });
+
 
         setupBottomNavigationView();
 
@@ -108,27 +102,27 @@ public class FeaturesActivity extends AppCompatActivity  {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.home:
+                    case R.id.ic_home:
 
                         break;
 
                     case R.id.ic_workoutsplit:
-                        Intent intent1 = new Intent(FeaturesActivity.this, WorkoutSplit.class);
+                        Intent intent1 = new Intent(mContext, WorkoutSplit.class);
                         startActivity(intent1);
                         break;
 
                     case R.id.ic_timer:
-                        Intent intent2 = new Intent(FeaturesActivity.this, Timer.class);
+                        Intent intent2 = new Intent(mContext, Timer.class);
                         startActivity(intent2);
                         break;
 
                     case R.id.ic_camera:
-                        Intent intent3 = new Intent(FeaturesActivity.this, Camera.class);
+                        Intent intent3 = new Intent(mContext, Camera.class);
                         startActivity(intent3);
                         break;
 
                     case R.id.ic_photo:
-                        Intent intent4 = new Intent(FeaturesActivity.this, PhotoLibrary.class);
+                        Intent intent4 = new Intent(mContext, PhotoLibrary.class);
                         startActivity(intent4);
                         break;
                 }
