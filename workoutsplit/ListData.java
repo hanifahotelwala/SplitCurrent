@@ -84,6 +84,7 @@ public class ListData extends AppCompatActivity {
             //in this array add the Parent object. We will use the arrayParents at the setAdapter
             arrayParents.add(parent);
 
+
         }
 
         //sets the adapter that provides data to the list.
@@ -148,11 +149,17 @@ public class ListData extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(mDatabaseHelper.getData()!=null){
+                    /**
+                     * deletes ALL entries ever made because this doesn't store user ID.
+                     * TODO:might not need this
+                     */
                     mDatabaseHelper.deleteAll();
                     /**
-                     * deletes entire database TODO: need fixing
+                     * deletes all entries for the current user in firebase
                      */
-                    myRef= FirebaseDatabase.getInstance().getReference().getRoot().child("workout");
+                    myRef= FirebaseDatabase.getInstance().getReference()
+                            .child("workout")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     toastMessage("myRef"+myRef);
                     myRef.setValue(null);
 
@@ -161,9 +168,12 @@ public class ListData extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             " Exercise log is already empty...",
                             Toast.LENGTH_SHORT).show();
+
+                finish();
             }
         });
         setupBottomNavigationView();
+
 
     }
 
@@ -217,15 +227,12 @@ public class ListData extends AppCompatActivity {
 
     }
 
-
     public void goHome(){
         Intent intent = new Intent(this, WorkoutSplit.class);
         startActivity(intent);
     }
 
-    /**
-     * Setup the firebase auth object
-     */
+  //*************************FIREBASE ******************************///////
     private void setupFirebaseAuth(){
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
 
@@ -257,7 +264,6 @@ public class ListData extends AppCompatActivity {
 
                 //retrieve user information from the database
 
-
                 //retrieve images for the user in question
 
             }
@@ -283,9 +289,6 @@ public class ListData extends AppCompatActivity {
 //            mAuth.removeAuthStateListener(mAuthListener);
 //        }
 //    }
-
-
-
 
 
 }

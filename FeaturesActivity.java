@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.android.splitfeatures.Notes.NotesActivity;
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
 import com.example.android.splitfeatures.login.LoginScreen;
 import com.example.android.splitfeatures.login.SignOut;
@@ -73,6 +74,14 @@ public class FeaturesActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 goToTimer();
+            }
+        });
+        notesButton=findViewById(R.id.notesButton);
+        notesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FeaturesActivity.this, NotesActivity.class);
+                startActivity(intent);
             }
         });
 

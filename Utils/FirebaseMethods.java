@@ -82,11 +82,6 @@ public class FirebaseMethods {
                 bm = ImageManager.getBitmap(imgUrl);
             }
 
-            //**
-
-
-                ///
-
             byte[] bytes =ImageManager.getBytesFromBitmap(bm, 100);
 
             UploadTask uploadTask = null;
@@ -95,21 +90,9 @@ public class FirebaseMethods {
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                //    Uri firebaseUrl = taskSnapshot.getDownloadUrl();
-                   // Uri firebaseUrl = taskSnapshot.getUploadSessionUri();
-                   // Uri firebaseUrl = taskSnapshot.getStorage().getDownloadUrl();
                     Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                     while (!urlTask.isSuccessful());
                     Uri firebaseUrl = urlTask.getResult();
-
-//                    Log.d(TAG, "onSuccess: firebase download url: " + downloadUrl.toString());
-//                    Photo upload = new Photo(.getCaption().getText().toString().trim(),downloadUrl.toString());
-//
-//                    String uploadId = databaseReference.push().getKey();
-//                    databaseReference.child(uploadId).setValue(upload);
-
-
-
                     Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
 
                     //add the new photo to 'photos' node and 'user_photos' node
@@ -140,53 +123,6 @@ public class FirebaseMethods {
             });
 
         }
-        //case new profile photo
-//        else if(photoType.equals(mContext.getString(R.string.profile_photo))){
-//            Log.d(TAG, "uploadNewPhoto: uploading new PROFILE photo");
-//
-//
-//            String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//            StorageReference storageReference = mStorageReference
-//                    .child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + user_id + "/profile_photo");
-//
-//            //convert image url to bitmap
-//            if(bm == null){
-//                bm = ImageManager.getBitmap(imgUrl);
-//            }
-//            byte[] bytes = ImageManager.getBytesFromBitmap(bm, 100);
-//
-//            UploadTask uploadTask = null;
-//            uploadTask = storageReference.putBytes(bytes);
-//
-//            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    Uri firebaseUrl = taskSnapshot.getDownloadUrl();
-//
-//                    Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
-//
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.d(TAG, "onFailure: Photo upload failed.");
-//                    Toast.makeText(mContext, "Photo upload failed ", Toast.LENGTH_SHORT).show();
-//                }
-//            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//
-//                    if(progress - 15 > mPhotoUploadProgress){
-//                        Toast.makeText(mContext, "photo upload progress: " + String.format("%.0f", progress) + "%", Toast.LENGTH_SHORT).show();
-//                        mPhotoUploadProgress = progress;
-//                    }
-//
-//                    Log.d(TAG, "onProgress: upload progress: " + progress + "% done");
-//                }
-//            });
-//        }
 
     }
 

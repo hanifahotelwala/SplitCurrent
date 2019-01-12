@@ -112,9 +112,6 @@ public class RegisterScreen extends AppCompatActivity {
     ------------------------------------ Firebase ---------------------------------------------
      */
 
-    /**
-     * Setup the firebase auth object
-     */
     private void setupFirebaseAuth(){
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
 

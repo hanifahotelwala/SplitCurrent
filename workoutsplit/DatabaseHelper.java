@@ -10,7 +10,6 @@ import android.util.Log;
 /**
  * for workoutsplit
  */
-
     public class DatabaseHelper extends SQLiteOpenHelper {
 
         private static final String TAG = "DatabaseHelper";

@@ -8,6 +8,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+/**
+ * Splash screeen ---may not want it
+ */
+
 public class Home extends AppCompatActivity {
 
 

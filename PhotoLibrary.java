@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.example.android.splitfeatures.CameraAndPhotoLib.GridImageAdapter;
 import com.example.android.splitfeatures.CameraAndPhotoLib.Photo;
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
 import com.example.android.splitfeatures.Utils.ImageAdapter;
+import com.example.android.splitfeatures.login.SignOut;
 import com.example.android.splitfeatures.workoutsplit.WorkoutSplit;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +41,7 @@ public class PhotoLibrary extends AppCompatActivity {
     private Context mContext= PhotoLibrary.this;
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
+
 
     //firebase
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -60,7 +64,7 @@ public class PhotoLibrary extends AppCompatActivity {
                 .child(getString(R.string.dbname_user_photos))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        //mDatabaseRef.addValueEventListener(new ValueEventListener() {
+
         mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -78,8 +82,6 @@ public class PhotoLibrary extends AppCompatActivity {
                     imgUrls.add(mUploads.get(i).getImage_path());
                 }
 
-
-
                mAdapter = new ImageAdapter(PhotoLibrary.this, mUploads);
 
                 GridImageAdapter adapter = new GridImageAdapter(PhotoLibrary.this,R.layout.layout_grid_imageview,
@@ -96,8 +98,7 @@ public class PhotoLibrary extends AppCompatActivity {
             }
         });
 
-
-
+        setupFirebaseAuth();
         setupBottomNavigationView();
     }
 

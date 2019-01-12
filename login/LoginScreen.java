@@ -42,16 +42,14 @@ import static android.R.id.message;
 
         private static final String TAG = "LoginScreen";
 
-
         //firebase
         private FirebaseAuth mAuth;
         private FirebaseAuth.AuthStateListener mAuthListener;
-
+        //vars
         private Context mContext;
         private ProgressBar mProgressBar;
         private EditText mEmail, mPassword;
         private TextView mPleaseWait;
-
 
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,7 +134,6 @@ import static android.R.id.message;
                                                 Log.e(TAG, "onComplete: NullPointerException: " + e.getMessage());
                                             }
 
-                                            // ...
                                         }
                                     }
                                 });

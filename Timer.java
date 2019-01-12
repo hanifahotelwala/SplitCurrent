@@ -15,10 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.splitfeatures.Utils.BottomNavigationViewHelper;
+import com.example.android.splitfeatures.login.SignOut;
 import com.example.android.splitfeatures.workoutsplit.WorkoutSplit;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -32,8 +34,8 @@ public class Timer extends AppCompatActivity {
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
     private Button mButtonReset;
+    private ImageButton signOut;
     private CountDownTimer mCountDownTimer;
-    private CountDownTimer restCountDown;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis;
     private long mRestTimeInMillis;
@@ -119,6 +121,16 @@ public class Timer extends AppCompatActivity {
             updateCountDownText();
 
         setupBottomNavigationView();
+
+        signOut = findViewById(R.id.signOutButton);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(Timer.this, SignOut.class);
+                startActivity(intent1);
+            }
+        });
+
 
     }
 
@@ -213,7 +225,7 @@ public class Timer extends AppCompatActivity {
                 }
         }.start();
         mTimerRunning = true;
-        mButtonStartPause.setText("Stop");
+        mButtonStartPause.setText("Pause");
         mButtonReset.setVisibility(View.INVISIBLE);
         mCircuitInput.setVisibility(View.GONE);
         mCircuitValue.setVisibility(VISIBLE);
@@ -239,6 +251,7 @@ public class Timer extends AppCompatActivity {
         updateCountDownText();
         mButtonReset.setVisibility(View.INVISIBLE);
         mButtonStartPause.setVisibility(VISIBLE);
+        mButtonStartPause.setText("Start");
         mCircuitInput.setVisibility(VISIBLE);
         mCircuitLength.setVisibility(VISIBLE);
         mRestPeriod.setVisibility(VISIBLE);

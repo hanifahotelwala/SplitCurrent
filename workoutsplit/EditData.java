@@ -93,8 +93,8 @@ public class EditData extends AppCompatActivity {
                 String item = editable_item.getText().toString();
                 if(!item.equals("")){
                     mDatabaseHelper.updateName(item,selectedID,selectedName);
-
                     goHome();
+                    finish();
                     toastMessage("Saved!");
                 }else{
                     toastMessage("You must enter a name");
@@ -110,6 +110,7 @@ public class EditData extends AppCompatActivity {
                 mDatabaseHelper.deleteName(selectedID, selectedName);
                     editable_item.setText("");
                     goHome();
+                    finish();
                     toastMessage("Removed from database");
 
                     User user = new User();
@@ -117,8 +118,10 @@ public class EditData extends AppCompatActivity {
                 /**
                  * TODO: attempt to delete only a single child!!!!!
                  */
-              myRef= FirebaseDatabase.getInstance().getReference().getRoot().child("workout")
-                      .child("selectedName");
+              myRef= FirebaseDatabase.getInstance().getReference()
+                      .child("workout")
+                      .child("selectedName")
+                      .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
               myRef.removeValue();
 
                 //myRef=mFirebaseDatabase.getInstance().getReference().dataSnapshot
@@ -175,10 +178,7 @@ public class EditData extends AppCompatActivity {
 
     }
 
-    /**
-     * customizable toast
-     * @param message
-     */
+
     private void toastMessage(String message){
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
@@ -188,9 +188,7 @@ public class EditData extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
-     * Setup the firebase auth object
-     */
+    //*************************FIREBASE ******************************///////
     private void setupFirebaseAuth(){
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
 

@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class GalleryActivity extends AppCompatActivity {
 
-    private static final String TAG = "NextActivity";
+    private static final String TAG = "Share activity";
 
     //firebase
     private FirebaseAuth mAuth;
@@ -55,7 +55,7 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
         mFirebaseMethods = new FirebaseMethods(GalleryActivity.this);
-        mCaption = (EditText) findViewById(R.id.caption) ;
+        mCaption = findViewById(R.id.caption) ;
 
         setupFirebaseAuth();
 
@@ -87,8 +87,6 @@ public class GalleryActivity extends AppCompatActivity {
                     bitmap = (Bitmap) intent.getParcelableExtra(getString(R.string.selected_bitmap));
                     mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), caption, imageCount, null,bitmap);
                 }
-//            Intent intent1 = new Intent(GalleryActivity.this, PhotoLibrary.class);
-//                startActivity(intent1);
 
             }
         });
@@ -104,7 +102,7 @@ public class GalleryActivity extends AppCompatActivity {
      */
     private void setImage(){
         intent = getIntent();
-        ImageView image = (ImageView) findViewById(R.id.imageShare);
+        ImageView image = findViewById(R.id.imageShare);
         imgUrl = intent.getStringExtra(getString(R.string.selected_image));
 
         if(intent.hasExtra(getString(R.string.selected_image))){
@@ -124,9 +122,6 @@ public class GalleryActivity extends AppCompatActivity {
      ------------------------------------ Firebase ---------------------------------------------
      */
 
-    /**
-     * Setup the firebase auth object
-     */
     private void setupFirebaseAuth(){
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
         mAuth = FirebaseAuth.getInstance();
@@ -183,4 +178,4 @@ public class GalleryActivity extends AppCompatActivity {
         }
     }
 }
-//}
+

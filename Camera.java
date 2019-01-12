@@ -31,12 +31,6 @@ public class Camera extends AppCompatActivity {
     private static final int ACTIVITY_NUM=3;
     private Context mContext= Camera.this;
 
-    /**
-     * firebase references
-     */
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference myRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +39,10 @@ public class Camera extends AppCompatActivity {
        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
        startActivityForResult(cameraIntent,REQUEST_IMAGE_CAPTURE);
         setupBottomNavigationView();
+        /**
+         * cant have finish here because then gallery activity wont appear
+         */
+       // finish();
 
     }
 
@@ -54,7 +52,6 @@ public class Camera extends AppCompatActivity {
 
         if(requestCode ==REQUEST_IMAGE_CAPTURE){
             Log.d(TAG, "done taking a photo");
-
 
         }
         Bitmap bitmap;
