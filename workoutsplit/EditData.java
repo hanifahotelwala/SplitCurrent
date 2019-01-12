@@ -117,6 +117,9 @@ public class EditData extends AppCompatActivity {
 
                 /**
                  * TODO: attempt to delete only a single child!!!!!
+                 * Could use this tutorial as an example: not exactly what its supposed to be
+                 * since its with images but similar concept:
+                 * https://codinginflow.com/tutorials/android/firebase-storage-upload-and-retrieve-images/part-8-delete-uploads
                  */
               myRef= FirebaseDatabase.getInstance().getReference()
                       .child("workout")
