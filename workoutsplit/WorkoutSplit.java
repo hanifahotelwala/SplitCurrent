@@ -107,15 +107,15 @@ public class WorkoutSplit extends AppCompatActivity {
             public void onClick(View v) {
                 workoutEntry = workout.getText().toString();
                 setEntry = sets.getText().toString();
-                int setNum = new Integer(setEntry).intValue();
                 repEntry = reps.getText().toString();
-                int repNum = new Integer(repEntry).intValue();
 
                 workoutEmpty(workoutEntry);
                 setEmpty(setEntry);
                 repEmpty(repEntry);
 
                 if (workout.length() != 0 && sets.length() != 0 && reps.length() != 0) {
+                    int setNum = new Integer(setEntry).intValue();
+                    int repNum = new Integer(repEntry).intValue();
                     //adds entry into the SQLite db
                     AddData(workoutEntry, setNum, repNum);
                    //adds entry into the firebase database
@@ -149,26 +149,23 @@ public class WorkoutSplit extends AppCompatActivity {
     }
 
     public void workoutEmpty(String workoutEntry){
-        if(TextUtils.isEmpty(workoutEntry)){
+        if(TextUtils.isEmpty(workoutEntry)|| workoutEntry.length() ==0){
             workout.setError("Field can not be empty");
-        }
 
+        }
     }
 
-    /**
-     * TODO: setEmpty and repEmpty are not working.
-     *
-     */
     public void setEmpty(String setEntry){
-        if(TextUtils.isEmpty(setEntry)){
+        if(TextUtils.isEmpty(setEntry) || setEntry.length()==0){
             sets.setError("Field can not be empty");
         }
 
     }   public void repEmpty(String repEntry){
-        if(TextUtils.isEmpty(repEntry)){
+        if(TextUtils.isEmpty(repEntry) || repEntry.length()==0){
             reps.setError("Field can not be empty");
         }
     }
+
 
     /**
      * BottomNavigationView setup
