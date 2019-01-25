@@ -66,7 +66,7 @@ public class ListData extends AppCompatActivity {
         clear.setFocusable(false);
 
         ArrayList<Parent> arrayParents = new ArrayList<Parent>();
-        ArrayList<String> arrayChildren;// = new ArrayList<String>();
+        ArrayList<String> arrayChildren;
 
         Cursor data = mDatabaseHelper.getData();
 
@@ -75,6 +75,17 @@ public class ListData extends AppCompatActivity {
             //then add it to the ArrayList
             Parent parent = new Parent();
             parent.setTitle(data.getString(1));
+
+
+            /**
+             *prints the URL, WHY - TODO: current spot
+             */
+//            myRef= FirebaseDatabase.getInstance().getReference()
+//                    .child("workout")
+//                   // .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                  //  .child("workout");
+//
+//            parent.setTitle(myRef.toString());
 
             arrayChildren = new ArrayList<String>();
             arrayChildren.add("Sets "+data.getString(2));

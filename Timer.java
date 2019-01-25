@@ -31,7 +31,7 @@ import static android.view.View.VISIBLE;
 
 public class Timer extends AppCompatActivity {
 
-    private TextView mTextViewCountDown;
+    private TextView mTextViewCountDown,t1, t2,t3;
     private Button mButtonStartPause;
     private Button mButtonReset;
     private ImageButton signOut;
@@ -71,6 +71,9 @@ public class Timer extends AppCompatActivity {
         mCircuitLength = findViewById(R.id.circuitLength);
         mCircuits = findViewById(R.id.circuits);
         mRestPeriod = findViewById(R.id.restLength);
+        t1=findViewById(R.id.textView);
+        t2=findViewById(R.id.textView3);
+        t3=findViewById(R.id.textView4);
 
 
         mCircuitValue.setVisibility(GONE);
@@ -232,6 +235,9 @@ public class Timer extends AppCompatActivity {
         mCircuits.setVisibility(VISIBLE);
         mCircuitLength.setVisibility(GONE);
         mRestPeriod.setVisibility(GONE);
+        t1.setVisibility(GONE);
+        t3.setVisibility(GONE);
+        t2.setVisibility(GONE);
     }
 
 
@@ -244,6 +250,9 @@ public class Timer extends AppCompatActivity {
         mCircuitLength.setVisibility(GONE);
         mCircuitValue.setVisibility(VISIBLE);
         mCircuits.setVisibility(VISIBLE);
+        t1.setVisibility(GONE);
+        t3.setVisibility(GONE);
+        t2.setVisibility(GONE);
     }
 
     private void resetTimer() {
@@ -255,6 +264,9 @@ public class Timer extends AppCompatActivity {
         mCircuitInput.setVisibility(VISIBLE);
         mCircuitLength.setVisibility(VISIBLE);
         mRestPeriod.setVisibility(VISIBLE);
+        t1.setVisibility(VISIBLE);
+        t3.setVisibility(VISIBLE);
+        t2.setVisibility(VISIBLE);
         mCircuitValue.setVisibility(GONE);
         mCircuits.setVisibility(GONE);
 

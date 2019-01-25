@@ -102,7 +102,7 @@ public class RegisterScreen extends AppCompatActivity {
 
     }
 
-    private boolean isStringNull(String string){
+    private boolean isStringNull(String string) {
         Log.d(TAG, "isStringNull: checking string if null.");
 
         return string.equals("");
